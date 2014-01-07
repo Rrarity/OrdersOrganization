@@ -65,5 +65,5 @@ def log_out(request):
     logout(request)
     return HttpResponse(json.dumps({'errors_codes': []}))
 
-def a(request):
-    User.objects.create(username='admin', password='admin')
+
+#TODO Использовать User.objects.create_user(username='admin', password='admin') для создания пользователя

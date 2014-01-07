@@ -7,7 +7,6 @@ from MyOrders.views import *
 
 urlpatterns = patterns('',
                        url(r'^my_orders/', include('MyOrders.urls')),
-                       url(r'^$', ),
                         # url(r'^OrdersOrganization/', include('OrdersOrganization.foo.urls')),
 
                         # Uncomment the admin/doc line below to enable admin documentation:
