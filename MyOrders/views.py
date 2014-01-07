@@ -24,10 +24,13 @@ def log_in(request):
         data = json.loads(request.body)
     except (TypeError, ValueError):
         errors_list.append(e_convert)
-        return HttpResponse(json.dumps({'error_codes': errors_list}))
+        return HttpResponse(json.dumps({'errors_codes': errors_list}))
 
     if not isinstance(data, dict):
-        errors_list.append()
+        errors_list.append(e_type)
+        return HttpResponse(json.dumps({'errors_codes': errors_list}))
+
+    return HttpResponse()
 
     #if not request.user.is_authenticated():
 
