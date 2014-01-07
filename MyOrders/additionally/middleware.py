@@ -8,5 +8,5 @@ __author__ = 'Заур'
 class MiddleWareProcess(object):
 
     def process_request(self, request):
-        if not request.user.is_authenticated():
+        if request.user.is_authenticated():
             return HttpResponseForbidden()
