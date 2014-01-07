@@ -5,7 +5,7 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-                       url(r'^my_orders/$', include('MyOrders.urls')),
+                       url(r'^my_orders/', include('MyOrders.urls')),
                         # url(r'^OrdersOrganization/', include('OrdersOrganization.foo.urls')),
 
                         # Uncomment the admin/doc line below to enable admin documentation:
