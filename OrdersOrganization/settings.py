@@ -108,7 +108,7 @@ ROOT_URLCONF = 'OrdersOrganization.urls'
 WSGI_APPLICATION = 'OrdersOrganization.wsgi.application'
 
 import os
-TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),)
+TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'MyOrders/templates').replace('\\','/'),)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
