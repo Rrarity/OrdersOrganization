@@ -6,5 +6,5 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('MyOrders.views',
                        url(r'^$', 'get_home_page'),
-                       url(r'^$', 'log_in'),
-                       url(r'^$', 'log_out'),)
+                       url(r'^login$', 'log_in'),
+                       url(r'^logout$', 'log_out'),)
