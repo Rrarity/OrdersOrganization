@@ -1,0 +1,42 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}My Orders{% endblock %}</title>
+    <link rel='shortcut icon' href="{% static "img/favicon.ico" %}" type='image/x-icon' />
+    <link rel="stylesheet" href="{% static "css/reset.css" %}">
+    <link rel="stylesheet" href="{% static "css/kendoui/kendo.common.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/kendoui/kendo.bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/base/base.css" %}">
+    {% block style %}{% endblock %}
+    <script src="{% static "js/kendoui/jquery.min.js" %}"></script>
+    <script src="{% static "js/kendoui/kendo.all.min.js" %}"></script>
+    <script src="{% static "js/kendoui/cultures/kendo.culture.ru-RU.min.js" %}"></script>
+
+    {% block script %}{% endblock %}
+</head>
+<body>
+    {% block header%}
+    <header>
+
+    </header>
+    {% endblock %}
+
+    <div id="content">
+    {% block content %}
+
+    {% endblock %}
+    </div>
+
+    {% block footer %}
+    <footer>
+
+    </footer>
+    {% endblock %}
+
+    <script type="text/javascript">
+
+    </script>
+</body>
+</html>
