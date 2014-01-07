@@ -1,6 +1,6 @@
 {% extends "base/base.html" %}
 {% load static from staticfiles %}
-{% block title %}My Orders - Войти{% endblock %}
+{% block title %}My Orders - Старница входа{% endblock %}
 {% block style %}
     <link rel="stylesheet" href="{% static "css/login/login.css" %}">
 {% endblock %}
@@ -8,7 +8,8 @@
     <script src="{% static "js/login/login.js" %}"></script>
 {% endblock %}
 {% block content %}
-    <div class="k-block"><div class="k-header">Войти на сайти</div>
-        
+    <div id="container" class="k-block"><div class="k-header">Войдите на сайт</div>
+        <p><input type="text" name="login" placeholder="Введите имя пользователя"></p>
+        <p><input type="password" name="password" placeholder="Введите пароль"></p>
     </div>
 {% endblock %}
