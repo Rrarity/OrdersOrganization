@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1688805020">
+    <data-source source="LOCAL" name="Django default" uuid="18c8da88-7757-4607-bd9c-50a0fca77b1b">
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\PyCharmProjects\OrdersOrganization\orders.db</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+
