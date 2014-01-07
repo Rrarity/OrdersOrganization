@@ -4,9 +4,10 @@ from django.shortcuts import render_to_response, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from MyOrders.additionally.errors_code import *
 from django.http import HttpResponseForbidden
+from django.contrib.auth.models import User
+import MyOrders.models as models
 from datetime import *
 import json
-
 
 
 def get_home_page(request):
@@ -64,3 +65,5 @@ def log_out(request):
     logout(request)
     return HttpResponse(json.dumps({'errors_codes': []}))
 
+def a(request):
+    User.objects.create(username='admin', password='admin')
