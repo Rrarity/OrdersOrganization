@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from MyOrders.additionally.errors_code import *
 from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
+from MyOrders.additionally.publics import *
 import MyOrders.models as models
 from datetime import *
 import json
@@ -64,6 +65,12 @@ def log_out(request):
 
     logout(request)
     return HttpResponse(json.dumps({'errors_codes': []}))
+
+
+def change_password(request):
+    """
+    Функция меняет пароль администратора
+    """
 
 
 #TODO Использовать User.objects.create_user(username='admin', password='admin') для создания пользователя
