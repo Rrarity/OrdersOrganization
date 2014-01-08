@@ -54,7 +54,5 @@ footer {
 
 #content {
     min-width: 1100px;
-    margin: 0 auto;
-    padding-top: 165px;
-    padding-bottom: 36px;
+    margin: 165px 20px 36px;
 }

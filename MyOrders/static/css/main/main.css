@@ -13,3 +13,9 @@
     font-size: 14px;
     color: #54A4BD;
 }
+
+#toolbar { padding: 15px 0 15px; }
+#toolbar .k-button { margin-right: 15px; }
+
+/*.k-edit-form-container .k-edit-buttons { position: static; }
+#change_order * { position: static; }*/

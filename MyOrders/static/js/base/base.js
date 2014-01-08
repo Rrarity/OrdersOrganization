@@ -23,3 +23,30 @@ function show_error(text, type, timeout) {
   		theme: 'defaultTheme'
   	});
 }
+
+function noty_confirm(text, succes) {
+    succes = typeof succes !== 'undefined' ? succes : function($n) { $n.close(); };
+    noty({
+        text: text,
+        layout: 'center',
+        buttons: [
+            {addClass: 'k-button', text: 'Да', onClick: succes
+            },
+            {addClass: 'k-button', text: 'Отмена', onClick: function($noty) {
+                    $noty.close();
+                }
+            }
+        ]
+    });
+}
+
+function noty_alert(text, succes) {
+    succes = typeof succes !== 'undefined' ? succes : function($n) { $n.close(); };
+    noty({
+        text: text,
+        layout: 'center',
+        buttons: [
+            {addClass: 'k-button', text: 'Закрыть', onClick: succes }
+        ]
+    });
+}

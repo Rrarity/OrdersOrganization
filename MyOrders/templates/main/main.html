@@ -19,5 +19,58 @@
     </header>
     {% endblock %}
 {% block content %}
-        Its work!
+        <div id="toolbar">
+                <span class='k-button add_order'>Добавить заказ</span>
+                <span class='k-button make_report'>Сформировать отчет</span>
+        </div>
+        <div id="order_grid"></div>
+
+{#    ///////////////////////////////////// шаблоны тулбаров/////////////////////////////////////#}
+
+    <script id="order_grid_toolbar_template" type="text/x-kendo-template">
+    </script>
+
+{#    ///////////////////////////////////// шаблоны тулбаров/////////////////////////////////////#}
+
+
+{#    ///////////////////////////////////// шаблоны форм/////////////////////////////////////#}
+
+    <div id="change_order_form" style="display: none">
+            <div id="change_order" class="k-edit-form-container" >
+                <div class="k-edit-label">
+                    <label>Клиент:</label>
+                </div>
+                <div class="k-edit-field">
+                    <select data-role="combobox" name="clients" data-text-field="name" data-value-field="id"
+                        data-bind="source: clients, value: client_id" style=" width: 470px;" > </select>
+                </div>
+                <div class="k-edit-label">
+                    <label >Номер телефона:</label>
+                </div>
+                <div class="k-edit-field">
+                    <select data-role="combobox" name="phones" data-text-field="name" data-value-field="id"
+                        data-bind="source: phones, value: phone_id" > </select>
+                </div>
+                <div class="k-edit-label">
+                    <label >Адресс доставки:</label>
+                </div>
+                <div class="k-edit-field">
+                    <input type="text" name="address" class="k-textbox" data-bind="value: address"
+                           placeholder="Адресс доставки" required />
+                </div>
+                <div class="k-edit-label">
+                    <label >Время доставки:</label>
+                </div>
+                <div class="k-edit-field">
+                    <input data-role="datetimepicker" data-bind="value: delivery_time"
+                            data-culture="ru-RU" />
+                </div>
+                <input type="hidden" id="isPartnersEdit" value="false">
+                <div class="k-edit-buttons k-state-default">
+                    <a class="k-button k-button-icontext k-grid-update" id="partnersSave" href="#"><span class="k-icon k-update"></span>Сохранить</a>
+                    <a class="k-button k-button-icontext k-grid-cancel" id="partnersCancel" href="#"><span class="k-icon k-cancel"></span>Отмена</a>
+                </div>
+            </div>
+    </div>
+{#    ///////////////////////////////////// шаблоны форм/////////////////////////////////////#}
 {% endblock %}
