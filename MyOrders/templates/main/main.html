@@ -7,6 +7,12 @@
 {% block script %}
     <script src="{% static "js/main/main.js" %}"></script>
 {% endblock %}
+    {% block header%}
+    <header>
+        <div id="logo"></div>
+        <div id="line_top" class="hr_line"></div>
+    </header>
+    {% endblock %}
 {% block content %}
         Its work!
 {% endblock %}

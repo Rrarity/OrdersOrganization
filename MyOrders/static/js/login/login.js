@@ -20,17 +20,16 @@
             var password = $("input[name='password']").val(),
                 login = $("input[name='login']").val();
             if ((password.length == 0) || (login.length == 0)) return false;
-            $.post("/my_orders/login/", { //TODO: Убрать позже
-                    username: login,
-                    password: password
-                }, function(data) {
+            $.post("/my_orders/login/",  //TODO: Убрать позже
+                    JSON.stringify({username: login,password: password}),
+                function(data) {
                     if (data.error_codes.length > 0) {
                         console.log(data.error_codes);
                     } else {
                         location.href = '/my_orders/'; //TODO: Убрать позже
                         location.reload();
                     }
-                });
+                }, "json");
               event.preventDefault();
         });
     });
