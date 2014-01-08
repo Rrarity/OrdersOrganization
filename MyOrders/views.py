@@ -84,7 +84,7 @@ def change_password(request):
                                                          'был изменен. Новый пароль: %s. Пожалуйста, не теряйте его !'
                                                          % (datetime.now().strftime("%d.%m.%Y"),
                                                             datetime.now().strftime("%H:%M"), password),
-              'noreply.my.orders@gmail.com', ['gmn1791@yandex.ru', user.email])
+              'noreply.my.orders@gmail.com', ['noreply.my.orders@gmail.com', user.email])
 
     return HttpResponse(json.dumps({'error_codes': [],
                                     'password': password}), content_type='application/json')

@@ -2,8 +2,8 @@
     {   "pk": 1,
         "model": "auth.user",
         "fields": {"username": "admin",
-            "first_name": "Заур",
-            "last_name": "Курбанисмаилов",
+            "first_name": "My.Orders",
+            "last_name": "creative_solution",
             "is_active": true,
             "is_superuser": false,
             "is_staff": false,
@@ -11,7 +11,7 @@
             "groups": [],
             "user_permissions": [],
             "password": "pbkdf2_sha256$10000$N2IOdR3PLEaR$CMradGpsm7hoykF6Cp8G8HM1BqoJvd9SPL5lOXjeeDY=",
-            "email": "Kurbanismailov.92@gmail.com",
-            "date_joined": "2012-11-28T20:32:35.458Z"}
+            "email": "noreply.my.orders@gmail.com",
+            "date_joined": "2014-01-07T20:32:35.458Z"}
     }
 ]
