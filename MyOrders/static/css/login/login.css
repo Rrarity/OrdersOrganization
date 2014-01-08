@@ -1,7 +1,14 @@
 @import url('../font-awesome/css/font-awesome.css');
 
 #container {
-    margin: 80px auto;
+    //margin: 40% auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -75px;
+
+
 }
 *,
 *:after,
