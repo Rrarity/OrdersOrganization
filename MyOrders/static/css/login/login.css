@@ -28,7 +28,7 @@
     clear: both;
 }
 
-.form-1 {
+.login_form {
     /* Size & position */
     width: 300px;
     margin: 60px auto 30px;
@@ -51,11 +51,11 @@
     background: linear-gradient(#eeefef, #ffffff 10%);
 }
 
-.form-1 .field {
+.login_form .field {
     position: relative; /* For the icon positioning */
 }
 
-.form-1 .field i {
+.login_form .field i {
     /* Size and position */
     left: 0px;
     top: 0px;
@@ -79,8 +79,8 @@
     pointer-events: none;
 }
 
-.form-1 input[type=text],
-.form-1 input[type=password] {
+.login_form input[type=text],
+.login_form input[type=password] {
     font-family: 'Lato', Calibri, Arial, sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -104,27 +104,27 @@
     transition: color 0.3s ease-out;
 }
 
-.form-1 input[type=text] {
+.login_form input[type=text] {
     margin-bottom: 10px;
 }
 
-.form-1 input[type=text]:hover ~ i,
-.form-1 input[type=password]:hover ~ i {
+.login_form input[type=text]:hover ~ i,
+.login_form input[type=password]:hover ~ i {
     color: #52cfeb;
 }
 
-.form-1 input[type=text]:focus ~ i,
-.form-1 input[type=password]:focus ~ i {
+.login_form input[type=text]:focus ~ i,
+.login_form input[type=password]:focus ~ i {
     color: #42A2BC;
 }
 
-.form-1 input[type=text]:focus,
-.form-1 input[type=password]:focus,
-.form-1 button[type=submit]:focus {
+.login_form input[type=text]:focus,
+.login_form input[type=password]:focus,
+.login_form button[type=submit]:focus {
     outline: none;
 }
 
-.form-1 .submit {
+.login_form .submit {
     /* Size and position */
     width: 65px;
     height: 65px;
@@ -143,7 +143,7 @@
         inset 0 -3px 2px rgba(0,0,0,0.2);
 }
 
-.form-1 .submit:after {
+.login_form .submit:after {
     /* Size and position */
     content: "";
     width: 10px;
@@ -159,7 +159,7 @@
     box-shadow: 0 62px white, -32px 31px white;
 }
 
-.form-1 button {
+.login_form button {
     /* Size and position */
     width: 100%;
     height: 100%;
@@ -189,8 +189,8 @@
     cursor: pointer;
 }
 
-.form-1 button:hover,
-.form-1 button[type=submit]:focus {
+.login_form button:hover,
+.login_form button[type=submit]:focus {
     background: #52cfeb;
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
@@ -199,7 +199,7 @@
     transition: all 0.3s ease-out;
 }
 
-.form-1 button:active {
+.login_form button:active {
     background: #42A2BC;
     box-shadow:
         inset 0 0 5px rgba(0,0,0,0.3),
