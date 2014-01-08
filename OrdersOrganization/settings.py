@@ -95,7 +95,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'MyOrders.additionally.middleware.MiddleWareProcess',
@@ -110,6 +110,14 @@ WSGI_APPLICATION = 'OrdersOrganization.wsgi.application'
 
 import os
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'MyOrders/templates').replace('\\','/'),)
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'Kurbanismailov.92@gmail.com'
+EMAIL_HOST_PASSWORD = 'Kurbanismailov'
+EMAIL_PORT = 587
+EMAIL_SUBJECT_PREFIX = '[Creative_solution]'
+SERVER_EMAIL = EMAIL_HOST_USER
 
 INSTALLED_APPS = (
     'django.contrib.auth',

@@ -8,6 +8,7 @@ __author__ = 'Заур'
 class MiddleWareProcess(object):
 
     def process_request(self, request):
-        if request.path.startswith('/my_orders/') and not request.user.is_authenticated():
+        if request.path.startswith('/my_orders/') and not request.path.startswith('/my_orders/login') and \
+                not request.user.is_authenticated():
             return render_to_response('login/login.html')
 

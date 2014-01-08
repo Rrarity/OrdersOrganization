@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2206127409">
-    <data-source source="LOCAL" name="Django default" product="SQLite" version="3.7.6.3" jdbc-version="2.1" driver-name="SQLiteJDBC" driver-version="native" uuid="cb3a55f7-f61b-448d-95ea-7a4a1562e816">
+  <component name="DataSourceManagerImpl" format="xml" hash="3060481629">
+    <data-source source="LOCAL" name="Django default" uuid="9b0b6a27-6295-4b88-bffc-59762bb52846">
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\gmn17_000\PycharmProjects\OrdersOrganization\orders.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\PyCharmProjects\OrdersOrganization\orders.db</jdbc-url>
       <libraries>
         <library>
-          <url>file://$USER_HOME$/.PyCharm20/config/jdbc-drivers/xerial-sqlite-license.txt</url>
+          <url>file://$USER_HOME$/.PyCharm30/config/jdbc-drivers/xerial-sqlite-license.txt</url>
         </library>
         <library>
-          <url>jar://$USER_HOME$/.PyCharm20/config/jdbc-drivers/sqlite-jdbc-3.7.6.3-20110609.081603-3.jar!/</url>
+          <url>file://$USER_HOME$/.PyCharm30/config/jdbc-drivers/sqlite-jdbc-3.7.6.3-20110609.081603-3.jar</url>
         </library>
       </libraries>
     </data-source>
