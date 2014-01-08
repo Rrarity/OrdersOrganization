@@ -1,0 +1,15 @@
+#user_card {
+    width: 320px;
+    float: right;
+    margin: 20px;
+    height: 110px;
+}
+#user_card .k-header { text-align: center; }
+#user_card .k-header span { color: #54A4BD; }
+#user_card .k-button {
+    display: block;
+    width: 300px;
+    margin: 8px;
+    font-size: 14px;
+    color: #54A4BD;
+}

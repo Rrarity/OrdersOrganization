@@ -23,13 +23,19 @@
             $.post("/my_orders/login/",  //TODO: Убрать позже
                     JSON.stringify({username: login,password: password}),
                 function(data) {
+                    console.log(data);
                     if (data.error_codes.length > 0) {
                         console.log(data.error_codes);
                     } else {
                         location.href = '/my_orders/'; //TODO: Убрать позже
                         location.reload();
                     }
-                }, "json");
+                }, "json").fail(function(e) {
+                    console.log(e);
+                    if (e.status == "403") {
+                        show_error("Неверное имя пользователя или пароль");
+                    }
+                });
               event.preventDefault();
         });
     });
