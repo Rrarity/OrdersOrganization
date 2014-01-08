@@ -13,5 +13,63 @@
             "password": "pbkdf2_sha256$10000$N2IOdR3PLEaR$CMradGpsm7hoykF6Cp8G8HM1BqoJvd9SPL5lOXjeeDY=",
             "email": "noreply.my.orders@gmail.com",
             "date_joined": "2014-01-07T20:32:35.458Z"}
+    },
+    {
+        "pk": 1,
+        "model": "MyOrders.Client",
+        "fields": {
+            "register_date": "2014-01-07T23:54:35.458Z",
+            "name": "Федор",
+            "surname": "Емельяненко",
+            "patronymic": "Владимирович",
+            "gender": true,
+            "birthday": "1976-09-28",
+            "address": "Московская 40",
+            "t_number": "+79640099999"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "MyOrders.Client",
+        "fields": {
+            "register_date": "2014-01-07T23:54:35.458Z",
+            "name": "Хабиб",
+            "surname": "Нурмагомедов",
+            "patronymic": "Абдулманапович",
+            "gender": true,
+            "birthday": "1988-09-20",
+            "address": "Махачкалинская 25",
+            "t_number": "+79888888888"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "MyOrders.Session",
+        "fields": {
+            "Clientid": 1,
+            "order_time": "2014-01-07T23:54:35.458Z",
+            "delivery_time": "2014-01-08T00:30:00.458Z",
+            "address": "Московская 40"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "MyOrders.Session",
+        "fields": {
+            "Clientid": 1,
+            "order_time": "2014-01-08T15:54:35.458Z",
+            "delivery_time": "2014-01-08T18:00:00.458Z",
+            "address": "Ленинградская 40"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "MyOrders.Session",
+        "fields": {
+            "Clientid": 2,
+            "order_time": "2014-01-08T16:34:35.458Z",
+            "delivery_time": "2014-01-08T17:55:00.458Z",
+            "address": "Махачкалинская 12"
+        }
     }
 ]
