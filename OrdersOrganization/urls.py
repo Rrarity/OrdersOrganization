@@ -3,10 +3,10 @@ from django.conf.urls import patterns, include, url
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
-from OrdersOrganization.blind_stopper import blind_stopper as b_stopper
+from OrdersOrganization.blind_stoppers import redirect_stopper as r_stopper
 
 urlpatterns = patterns('',
-                       url(r'^$', b_stopper),
+                       url(r'^$', r_stopper),
                        url(r'^my_orders/', include('MyOrders.urls')),
 
                         # url(r'^OrdersOrganization/', include('OrdersOrganization.foo.urls')),
