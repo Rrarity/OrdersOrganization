@@ -24,8 +24,15 @@
             "patronymic": "Владимирович",
             "gender": true,
             "birthday": "1976-09-28",
-            "address": "Московская 40",
             "t_number": "+79640099999"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "MyOrders.Address",
+        "fields": {
+            "address": "Московская 40",
+            "Clientid": 1
         }
     },
     {
@@ -38,8 +45,15 @@
             "patronymic": "Абдулманапович",
             "gender": true,
             "birthday": "1988-09-20",
-            "address": "Махачкалинская 25",
             "t_number": "+79888888888"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "MyOrders.Address",
+        "fields": {
+            "address": "Махачкалинская 25",
+            "Clientid": 2
         }
     },
     {

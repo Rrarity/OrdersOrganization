@@ -10,9 +10,12 @@ class Client(models.Model):
     patronymic = models.CharField(max_length=32, null=True)
     gender = models.NullBooleanField(null=True)
     birthday = models.DateField(null=True)
-    address = models.CharField(max_length=128, null=False)
     t_number = models.CharField(max_length=16, null=False)
 
+
+class Address(models.Model):
+    Clientid = models.ForeignKey(Client, null=False)
+    address = models.CharField(max_length=128, null=False)
 
 class Session(models.Model):
     Clientid = models.ForeignKey(Client, null=False)

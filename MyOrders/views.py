@@ -91,3 +91,21 @@ def change_password(request):
 
 
 #TODO Использовать User.objects.create_user(username='admin', password='admin') для создания пользователя
+
+
+def get_add_session(request):
+    """
+    Отправить данные на форму добавления заказа
+    """
+
+    t_numbers = list(models.Client.objects.all().values('id', 't_number'))
+
+    clients = list(models.Client.objects.all().values('id', 'name', 'surname', 'patronymic', 'gender', 'birthday'))
+
+    for client in clients:
+        client['birthday'] = client['birthday'].strftime("%d.%m.%Y")
+
+    addresses = list(models.Address.objects.all().values('Clientid', 'address'))
+
+    return HttpResponse(json.dumps({'error_codes': [], 't_numbers': t_numbers,
+                                    'clients': clients, 'addresses': addresses}), content_type='application/json')
