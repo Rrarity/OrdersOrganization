@@ -11,6 +11,7 @@ from django.core.mail import send_mail
 import MyOrders.models as models
 from datetime import *
 import json
+import re
 
 
 def get_home_page(request):
@@ -93,19 +94,48 @@ def change_password(request):
 #TODO Использовать User.objects.create_user(username='admin', password='admin') для создания пользователя
 
 
-def get_add_session(request):
+def get_add_session_from_number(request):
     """
     Отправить данные на форму добавления заказа
     """
+    error_codes = []
 
-    t_numbers = list(models.Client.objects.all().values('id', 't_number'))
+    try:
+        data = json.loads(request.body)
+    except(ValueError, TypeError):
+        error_codes.append(e_convert)
+        return HttpResponse(json.dumps({'error_codes': error_codes}),
+                            content_type='application/json')
 
-    clients = list(models.Client.objects.all().values('id', 'name', 'surname', 'patronymic', 'gender', 'birthday'))
+    if not isinstance(data, dict):
+        error_codes.append(e_type)
+        return HttpResponse(json.dumps({'error_codes': error_codes}),
+                            content_type='application/json')
 
-    for client in clients:
-        client['birthday'] = client['birthday'].strftime("%d.%m.%Y")
+    t_number = data.get('t_number')
 
-    addresses = list(models.Address.objects.all().values('Clientid', 'address'))
 
-    return HttpResponse(json.dumps({'error_codes': [], 't_numbers': t_numbers,
-                                    'clients': clients, 'addresses': addresses}), content_type='application/json')
+    if not isinstance(t_number, unicode):
+        error_codes.append(e_type)
+    else:
+        reg_expr = re.compile('\+\d+')
+        reg_expr.match(t_number)
+        if not reg_expr:
+            error_codes.append(e_string_form)
+            return HttpResponse(json.dumps({'error_codes': error_codes}),
+                                content_type='application/json')
+
+    client = get_or_none(models.Client, t_number=t_number)
+
+    if client:
+        client_info = list(models.Client.objects.filter(t_number=t_number).values('id', 'name', 'surname',
+                                                                                  'patronymic', 'gender', 'birthday'))[0]
+        client_info['birthday'] = client_info.get('birthday').strftime('%d.%m.%Y')
+
+        addresses = [address.address for address in models.Address.objects.filter(Clientid=client_info.get('id'))]
+
+        return HttpResponse(json.dumps({'error_codes': error_codes, 'client': client_info,
+                                        'addresses': addresses}), content_type='application/json')
+    else:
+        return HttpResponse(json.dumps({'error_codes': error_codes, 'client': {'id': 0},
+                                        'addresses': []}), content_type='application/json')
