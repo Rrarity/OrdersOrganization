@@ -99,7 +99,7 @@
                     }
                 },
                 {   title: "Место доставки",
-                    field: "",
+                    field: "address",
                     width: "",
                     headerAttributes: {
                         style: "text-align: center;"
