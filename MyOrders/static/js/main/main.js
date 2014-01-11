@@ -271,7 +271,7 @@
                     order_model.set("patronymic",data.client.patronymic);
                     order_model.set("addresses",data.addresses);
                     order_model.set("address","");
-                    order_model.set("delivery_time",new Date());
+                    order_model.set("delivery_time",new Date(new Date().getTime() + 30*60000));
                     $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                     order_window.center().open();
                 },"json");
