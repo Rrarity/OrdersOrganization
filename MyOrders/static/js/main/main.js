@@ -103,10 +103,10 @@
                     width: "",
                     headerAttributes: {
                         style: "text-align: center;"
-                    },
+                    }/*,
                     attributes: {
                         style: "text-align: center;"
-                    }
+                    }*/
                 },
                 {   title: "Время доставки",
                     field: "delivery_time",
