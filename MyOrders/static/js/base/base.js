@@ -50,3 +50,15 @@ function noty_alert(text, succes) {
         ]
     });
 }
+
+function noty_message(text, type) {
+    text = typeof text !== 'undefined' ? text : "Загрузка...";
+    type = typeof type !== 'undefined' ? type : N_INFORMATION;
+    return noty({
+  		text: text,
+  		type: type,
+        dismissQueue: false,
+        layout: 'topCenter',
+  		theme: 'defaultTheme'
+  	});
+}

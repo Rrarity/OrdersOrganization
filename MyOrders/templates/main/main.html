@@ -35,40 +35,77 @@
 
 {#    ///////////////////////////////////// шаблоны форм/////////////////////////////////////#}
 
-    <div id="change_order_form" style="display: none">
-            <div id="change_order" class="k-edit-form-container" >
-                <div class="k-edit-label">
-                    <label>Клиент:</label>
-                </div>
-                <div class="k-edit-field">
-                    <select data-role="combobox" name="clients" data-text-field="name" data-value-field="id"
-                        data-bind="source: clients, value: client_id" style=" width: 470px;" > </select>
-                </div>
+    <div id="new_order_form" style="display: none">
+            <div id="new_order" class="k-edit-form-container" >
                 <div class="k-edit-label">
                     <label >Номер телефона:</label>
                 </div>
+                <div class="k-edit-field" >
+                    <select data-role="dropdownlist" name="type_number" data-text-field="text" data-value-field="id" data-bind="source: type_numbers, value: type_number, events: {change: type_number_change}" style="width: 60px"></select>
+                    <input type="text" name="country_code" data-bind="value: country_code" class="k-textbox" maxlength="2" placeholder="+7" style="width: 30px; text-align: center"/>
+                    <span data-bind="visible: is_mobile">
+                        <input type="text" name="def_code" data-bind="value: def_code" class="k-textbox" maxlength="3" placeholder="903" style="width: 35px; text-align: center"/>
+                        <input type="text" name="phone_number" data-bind="value: number" class="k-textbox"  maxlength="7" placeholder="1234567" style="width: 65px; text-align: center"/>
+                    </span>
+                    <span data-bind="invisible: is_mobile">
+                        <input type="text" name="home_phone" data-bind="value: number" class="k-textbox"  maxlength="15" placeholder="8722123456" style="width: 100px; text-align: center"/>
+                    </span>
+                </div>
+                <div class="k-edit-buttons k-state-default">
+                    <a class="k-button k-button-icontext k-grid-update" id="new_order_save" href="#"><span class="k-icon k-update"></span>Сохранить</a>
+                    <a class="k-button k-button-icontext k-grid-cancel" id="new_order_cancel" href="#"><span class="k-icon k-cancel"></span>Отмена</a>
+                </div>
+            </div>
+    </div>
+
+        <div id="order_form" style="display: none">
+            <div id="order" class="k-edit-form-container" >
+                <div class="k-edit-label">
+                    <label >Номер телефона<span class="required">*</span>:</label>
+                </div>
                 <div class="k-edit-field">
-                    <select data-role="combobox" name="phones" data-text-field="name" data-value-field="id"
-                        data-bind="source: phones, value: phone_id" > </select>
+                    <input type="text" name="phone" class="k-textbox" data-bind="value: phone"
+                           placeholder="Номер телефона"  style="width: 100%;" readonly/>
                 </div>
                 <div class="k-edit-label">
-                    <label >Адресс доставки:</label>
+                    <label>Фамилия:</label>
                 </div>
                 <div class="k-edit-field">
-                    <input type="text" name="address" class="k-textbox" data-bind="value: address"
-                           placeholder="Адресс доставки" required />
+                    <input type="text" name="surname" class="k-textbox" data-bind="value: surname"
+                           placeholder="Фамилия" style="width: 100%;"/>
+                </div>
+                <div class="k-edit-label">
+                    <label>Имя:</label>
+                </div>
+                <div class="k-edit-field">
+                    <input type="text" name="name" class="k-textbox" data-bind="value: name"
+                           placeholder="Отчество" style="width: 100%;"/>
+                </div>
+                <div class="k-edit-label">
+                    <label>Отчество:</label>
+                </div>
+                <div class="k-edit-field">
+                    <input type="text" name="patronymic" class="k-textbox" data-bind="value: patronymic"
+                           placeholder="Отчество" style="width: 100%;"/>
+                </div>
+                <div class="k-edit-label">
+                    <label >Адресс доставки<span class="required">*</span>:</label>
+                </div>
+                <div class="k-edit-field">
+                    <textarea data-bind="value: address" class="k-textbox"
+                          placeholder="Адресс доставки" style="width: 100%; height: 60px; resize: vertical"></textarea>
                 </div>
                 <div class="k-edit-label">
                     <label >Время доставки:</label>
                 </div>
                 <div class="k-edit-field">
                     <input data-role="datetimepicker" data-bind="value: delivery_time"
-                            data-culture="ru-RU" />
+                            data-culture="ru-RU" style="width: 100%;"/>
                 </div>
-                <input type="hidden" id="isPartnersEdit" value="false">
+                <input type="hidden" id="is_order_edit" value="false">
                 <div class="k-edit-buttons k-state-default">
-                    <a class="k-button k-button-icontext k-grid-update" id="partnersSave" href="#"><span class="k-icon k-update"></span>Сохранить</a>
-                    <a class="k-button k-button-icontext k-grid-cancel" id="partnersCancel" href="#"><span class="k-icon k-cancel"></span>Отмена</a>
+                    <a class="k-button k-button-icontext k-grid-update" id="order_save" href="#"><span class="k-icon k-update"></span>Сохранить</a>
+                    <a class="k-button k-button-icontext k-grid-cancel" id="order_cancel" href="#"><span class="k-icon k-cancel"></span>Отмена</a>
                 </div>
             </div>
     </div>
