@@ -30,8 +30,27 @@
         });
 
         var GRID_HEIGHT = 600;
+        var defaultValidator = {
+            rules: {
+                required: function(input) {
+                    if (input.is("[required]")) {
+                        return $.trim(input.val()) !== "";
+                    } else return true;
+                },
+                number: function(input) {
+                    if (input.is("[number]")) {
+                        var reg = new RegExp('^[0-9]+$');
+                        return reg.test(input.val());
+                    } else return true;
+                }
+            },
+            messages: {
+                required: "Поле не может быть пустым",
+                number: "Значение этого поля должно быть числом"
+            }
+        };
 
-        var order_grid = $("#order_grid").kendoGrid({
+       var order_grid = $("#order_grid").kendoGrid({
            dataSource: {
                transport: {
                    read: {
@@ -100,7 +119,7 @@
                     }
                 }
             ]
-        });
+        }).data("kendoGrid");
 
         $( window ).resize(function() {
 /*            var GRID_HEIGHT = $(window).height() - $("header").height() - $("footer").height() - 60;
@@ -115,7 +134,10 @@
             modal: true,
             visible: false,
             resizable: false,
-            width: 450
+            width: 450,
+            activate: function(e) {
+                $("input[name=def_code]").select();
+            }
         }).data("kendoWindow");
         var new_order_model = kendo.observable({
             is_mobile: true,
@@ -130,10 +152,41 @@
                     this.set("is_mobile",true);
                 else
                     this.set("is_mobile",false);
+            },
+            phone_change: function(e) {
+                var val = e.currentTarget.value;
+                var input = e.currentTarget.name
+                if ((val.length == 3) && (input == "def_code")) {
+                    $("input[name=phone_number]").select();
+                } else if ((e.keyCode == 13) && (input == "def_code")) {
+                    $("input[name=phone_number]").select();
+                } else if ((e.keyCode == 13)) {
+                    console.log("#13");
+                    $("#new_order_save").click();
+                }
+                //console.log(val.length,input, e)
             }
         });
         kendo.bind($("#new_order"), new_order_model);
-        //var nomenclatureValidator = $("#changeNomenclature").kendoValidator(defaultValidator).data("kendoValidator");
+        window.new_order_validator = $("#new_order").kendoValidator({
+            rules: {
+                required: function(input) {
+                    if (input.is("[required]")) {
+                        return $.trim(input.val()) !== "";
+                    } else return true;
+                },
+                number: function(input) {
+                    if (input.is("[number]")) {
+                        var reg = new RegExp('^[0-9]+$');
+                        return reg.test(input.val());
+                    } else return true;
+                }
+            },
+            messages: {
+                required: "Поле не может быть пустым",
+                number: "Значение этого поля должно быть числом"
+            }
+        }).data("kendoValidator");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         var order_window = $("#order_form").kendoWindow({
             title: "Добавить заказ",
@@ -153,6 +206,7 @@
             delivery_time: new Date()
         });
         kendo.bind($("#order"), order_model);
+        var order_validator = $("#order").kendoValidator(defaultValidator).data("kendoValidator");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $(".add_order").click(function(e) {
             e.preventDefault();
@@ -162,6 +216,7 @@
             new_order_model.set("def_code","");
             new_order_model.set("phone_number","");
             new_order_model.set("home_phone","");
+            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
             new_order_window.center().open();
             return false;
         });
@@ -176,6 +231,14 @@
         });
 
         $("#new_order_save").click(function(e) {
+            if (!new_order_validator.validateInput($("input[name=country_code]"))) return false;
+            if (new_order_model.get("type_number") == 1) {
+                if (!new_order_validator.validateInput($("input[name=def_code]"))) return false;
+                else if (!new_order_validator.validateInput($("input[name=phone_number]"))) return false;
+            } else {
+                if (!new_order_validator.validateInput($("input[name=home_phone]"))) return false;
+            }
+            //if (!new_order_validator.validate()) return false;
             var $Q = noty_message();
             new_order_window.close();
             var send_data = {
@@ -200,6 +263,8 @@
                     order_model.set("patronymic",data.client.patronymic);
                     order_model.set("addresses",data.addresses);
                     order_model.set("address","");
+                    order_model.set("delivery_time",new Date());
+                    $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                     order_window.center().open();
                 },"json");
             return false;
@@ -224,7 +289,7 @@
             $.post("/my_orders/set_add_session_from_number/", JSON.stringify(send_data),   // TODO: my_orders
                 function(data) {
                     console.log(data);
-                    order_grid.data("kendogrid").dataSource.read();
+                    order_grid.dataSource.read();
                     if (data.error_codes.length == 0) {
                         show_error("Сохранено.",N_SUCCESS);
                     } else {

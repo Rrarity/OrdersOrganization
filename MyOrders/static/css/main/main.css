@@ -19,3 +19,5 @@
 
 .k-edit-form-container { width: inherit;}
 .k-edit-form-container .k-edit-buttons { position: static; }
+
+.k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg {margin-top: 5px;}

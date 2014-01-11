@@ -42,14 +42,18 @@
                 </div>
                 <div class="k-edit-field" >
                     <select data-role="dropdownlist" name="type_number" data-text-field="text" data-value-field="id" data-bind="source: type_numbers, value: type_number, events: {change: type_number_change}" style="width: 60px"></select>
-                    <input type="text" name="country_code" data-bind="value: country_code" class="k-textbox" maxlength="2" placeholder="+7" style="width: 30px; text-align: center"/>
+                    <input type="text" name="country_code" data-bind="value: country_code" class="k-textbox" maxlength="2" placeholder="+7" style="width: 30px; text-align: center" required/>
                     <span data-bind="visible: is_mobile">
-                        <input type="text" name="def_code" data-bind="value: def_code" class="k-textbox" maxlength="3" placeholder="903" style="width: 35px; text-align: center"/>
-                        <input type="text" name="phone_number" data-bind="value: phone_number" class="k-textbox"  maxlength="7" placeholder="1234567" style="width: 65px; text-align: center"/>
+                        <input type="text" name="def_code" data-bind="value: def_code, events: {keyup: phone_change}" class="k-textbox" maxlength="3" placeholder="903" style="width: 35px; text-align: center" number required/>
+                        <input type="text" name="phone_number" data-bind="value: phone_number, events: {keyup: phone_change}" class="k-textbox"  maxlength="7" placeholder="1234567" style="width: 65px; text-align: center" number required/>
+                        <span class="k-invalid-msg" data-for="phone_number"></span>
+                        <span class="k-invalid-msg" data-for="def_code"></span>
                     </span>
                     <span data-bind="invisible: is_mobile">
-                        <input type="text" name="home_phone" data-bind="value: home_phone" class="k-textbox"  maxlength="15" placeholder="8722123456" style="width: 100px; text-align: center"/>
+                        <input type="text" name="home_phone" data-bind="value: home_phone, events: {keyup: phone_change}" class="k-textbox"  maxlength="15" placeholder="8722123456" style="width: 100px; text-align: center" number required/>
+                        <span class="k-invalid-msg" data-for="home_phone"></span>
                     </span>
+                    <span class="k-invalid-msg" data-for="country_code"></span>
                 </div>
                 <div class="k-edit-buttons k-state-default">
                     <a class="k-button k-button-icontext k-grid-update" id="new_order_save" href="#"><span class="k-icon k-update"></span>Сохранить</a>
@@ -65,7 +69,7 @@
                 </div>
                 <div class="k-edit-field">
                     <input type="text" name="phone" class="k-textbox" data-bind="value: phone"
-                           placeholder="Номер телефона"  style="width: 100%;" readonly/>
+                           placeholder="Номер телефона"  style="width: 100%;" readonly required/>
                 </div>
                 <div class="k-edit-label">
                     <label>Фамилия:</label>
@@ -93,7 +97,7 @@
                 </div>
                 <div class="k-edit-field">
                     <select data-role="combobox" name="addresses"
-                        data-bind="source: addresses, value: address" style=" width: 100%;" > </select>
+                        data-bind="source: addresses, value: address" style=" width: 100%;" required> </select>
                 </div>
                 <div class="k-edit-label">
                     <label >Время доставки:</label>
