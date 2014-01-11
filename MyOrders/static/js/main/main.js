@@ -33,21 +33,53 @@
 
         var order_grid = $("#order_grid").kendoGrid({
            dataSource: {
-                transport: {
-                        read: {
-                            url: "/my_orders//", //TODO: My_orders
+               transport: {
+                   read: {
+                       url: "/my_orders/get_sessions/", //TODO: My_orders
                             dataType: "json",
                             type: "POST",
                             data: {
                                 //type: "documents"
-                            }
-                        }
-                }
+                       }
+                   }
+               },
+               schema: {
+                   data: "sessions"
+               }
            },
             height: GRID_HEIGHT,
             columns: [
-                {
-                    title: "",
+                {   title: "Номер телефона",
+                    field: "t_number",
+                    width: "150px",
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },
+                {   title: "Клиент",
+                    field: "fio",
+                    width: "380px",
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    }
+//                    attributes: {
+//                        style: "text-align: center;"
+//                    }
+                },
+                {   title: "Время заказа",
+                    field: "order_time",
+                    width: "150px",
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },
+                {   title: "Место доставки",
                     field: "",
                     width: "",
                     headerAttributes: {
@@ -55,8 +87,17 @@
                     },
                     attributes: {
                         style: "text-align: center;"
+                    }
+                },
+                {   title: "Время доставки",
+                    field: "delivery_time",
+                    width: "150px",
+                    headerAttributes: {
+                        style: "text-align: center;"
                     },
-                    template: ""
+                    attributes: {
+                        style: "text-align: center;"
+                    }
                 }
             ]
         });
