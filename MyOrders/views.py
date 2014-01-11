@@ -114,7 +114,6 @@ def get_add_session_from_number(request):
 
     t_number = data.get('t_number')
 
-
     if not isinstance(t_number, unicode):
         error_codes.append(e_type)
     else:
@@ -134,8 +133,87 @@ def get_add_session_from_number(request):
 
         addresses = [address.address for address in models.Address.objects.filter(Clientid=client_info.get('id'))]
 
-        return HttpResponse(json.dumps({'error_codes': error_codes, 'client': client_info,
+        return HttpResponse(json.dumps({'error_codes': error_codes, 't_number': t_number, 'client': client_info,
                                         'addresses': addresses}), content_type='application/json')
     else:
-        return HttpResponse(json.dumps({'error_codes': error_codes, 'client': {'id': 0},
+        return HttpResponse(json.dumps({'error_codes': error_codes, 't_number': t_number,
+                                        'client': {'id': 0, 'name': '', 'surname': '',
+                                                   'patronymic': '', 'gender': None, 'birthday': ''},
                                         'addresses': []}), content_type='application/json')
+
+
+def set_add_session_from_number(request):
+    """
+    Добавить заказ и (возможно) нового клиента
+    """
+
+    error_codes = []
+
+    try:
+        data = json.loads(request.body)
+    except(ValueError, TypeError):
+        error_codes.append(e_convert)
+        return HttpResponse(json.dumps({'error_codes': error_codes}), content_type='application/json')
+
+    if not isinstance(data, dict):
+        error_codes.append(e_type)
+        return HttpResponse(json.dumps({'error_codes': error_codes}), content_type='application/json')
+
+    t_number = data.get('t_number')
+    Clientid = data.get('Clientid')
+    name = data.get('name')
+    surname = data.get('surname')
+    patronymic = data.get('patronymic')
+    gender = data.get('gender')
+    birthday = data.get('birthday')
+    address = data.get('address')
+    delivary_time = data.get('delivery_time')
+
+    if not isinstance(Clientid, int):
+        error_codes.append(e_type)
+    elif Clientid and not get_or_none(models.Client, id=Clientid):
+        error_codes.append(e_field_not_exist)
+
+    if not isinstance(name, unicode):
+        error_codes.append(e_type)
+
+    if not isinstance(surname, unicode):
+        error_codes.append(e_type)
+
+    if not isinstance(patronymic, unicode):
+        error_codes.append(e_type)
+
+    if not isinstance(gender, bool) and not isinstance(gender, None):
+        error_codes.append(e_type)
+
+    if not isinstance(birthday, date):
+        error_codes.append(e_type)
+
+    if not isinstance(address, unicode):
+        error_codes.append(e_type)
+
+    if not isinstance(delivary_time, datetime):
+        error_codes.append(e_type)
+
+    if error_codes:
+        return HttpResponse(json.dumps({'error_codes': error_codes}), content_type='application/json')
+
+    if Clientid:
+        client = get_or_none(models.Client, id=Clientid)
+
+        models.Client.objects.filter(id=Clientid).update(name=name, surname=surname, patronymic=patronymic,
+                                                         gender=gender, birthday=birthday)
+
+        if address not in [address.address for address in models.Address.objects.filter(Clientid=Clientid)]:
+            models.Address.objects.create(Clientid=client, address=address)
+
+        models.Session.objects.create(Clientid=client, address=address, delivery_time=delivary_time)
+
+    else:
+        new_client = models.Client.objects.create(name=name, surname=surname, patronymic=patronymic, gender=gender,
+                                                  birthday=birthday, t_number=t_number)
+        models.Address.objects.create(Clientid=new_client, address=address)
+
+        models.Session.objects.create(Clientid=new_client, address=address, delivary_time=delivary_time)
+
+    return HttpResponse(json.dumps({'error_codes': error_codes}), content_type='application/json')
