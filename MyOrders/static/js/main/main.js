@@ -180,11 +180,19 @@
                         var reg = new RegExp('^[0-9]+$');
                         return reg.test(input.val());
                     } else return true;
+                },
+                phone_code: function(input) {
+                    if (input.is("[name=country_code]")) {
+                        var reg = new RegExp('^\\+[0-9]+$');
+                        return reg.test(input.val());
+                        console.log(input)
+                    } else return true;
                 }
             },
             messages: {
                 required: "Поле не может быть пустым",
-                number: "Значение этого поля должно быть числом"
+                number: "Значение этого поля должно быть числом",
+                phone_code: "Неверный код страны"
             }
         }).data("kendoValidator");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
