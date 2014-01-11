@@ -26,6 +26,9 @@ class Session(models.Model):
     address = models.CharField(max_length=128, null=False)
     delivery_time = models.DateTimeField(null=False)
 
+    class Meta:
+        ordering = ['-order_time']
+
 
 class Restaurant(models.Model):
     name_id = models.CharField(max_length=128, null=False, unique=True)

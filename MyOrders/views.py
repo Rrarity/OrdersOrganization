@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from MyOrders.additionally.publics import *
 from django.core.validators import email_re
 from django.core.mail import send_mail
+from django.utils.timezone import utc
 import MyOrders.models as models
 from datetime import *
 import json
@@ -128,8 +129,7 @@ def get_add_session_from_number(request):
 
     if client:
         client_info = list(models.Client.objects.filter(t_number=t_number).values('id', 'name', 'surname',
-                                                                                  'patronymic', 'gender', 'birthday'))[0]
-        client_info['birthday'] = client_info.get('birthday').strftime('%d.%m.%Y')
+                                                                                  'patronymic'))[0]
 
         addresses = [address.address for address in models.Address.objects.filter(Clientid=client_info.get('id'))]
 
@@ -138,7 +138,7 @@ def get_add_session_from_number(request):
     else:
         return HttpResponse(json.dumps({'error_codes': error_codes, 't_number': t_number,
                                         'client': {'id': 0, 'name': '', 'surname': '',
-                                                   'patronymic': '', 'gender': None, 'birthday': ''},
+                                                   'patronymic': ''},
                                         'addresses': []}), content_type='application/json')
 
 
@@ -164,10 +164,16 @@ def set_add_session_from_number(request):
     name = data.get('name')
     surname = data.get('surname')
     patronymic = data.get('patronymic')
-    gender = data.get('gender')
-    birthday = data.get('birthday')
     address = data.get('address')
-    delivary_time = data.get('delivery_time')
+    delivery_time = data.get('delivery_time')
+
+    if not isinstance(delivery_time, unicode):
+        error_codes.append(e_type)
+    else:
+        delivery_date, delivery_time = delivery_time.split('T')
+        delivery_time = delivery_time.split(':')[:2]
+        delivery_time = datetime.strptime(u'%s %s:%s' % (delivery_date, delivery_time[0],
+                                                         delivery_time[1]), '%Y-%m-%d %H:%M')
 
     if not isinstance(Clientid, int):
         error_codes.append(e_type)
@@ -183,16 +189,10 @@ def set_add_session_from_number(request):
     if not isinstance(patronymic, unicode):
         error_codes.append(e_type)
 
-    if not isinstance(gender, bool) and not isinstance(gender, None):
-        error_codes.append(e_type)
-
-    if not isinstance(birthday, date):
-        error_codes.append(e_type)
-
     if not isinstance(address, unicode):
         error_codes.append(e_type)
 
-    if not isinstance(delivary_time, datetime):
+    if not isinstance(delivery_time, datetime):
         error_codes.append(e_type)
 
     if error_codes:
@@ -201,20 +201,19 @@ def set_add_session_from_number(request):
     if Clientid:
         client = get_or_none(models.Client, id=Clientid)
 
-        models.Client.objects.filter(id=Clientid).update(name=name, surname=surname, patronymic=patronymic,
-                                                         gender=gender, birthday=birthday)
+        models.Client.objects.filter(id=Clientid).update(name=name, surname=surname, patronymic=patronymic)
 
         if address not in [address.address for address in models.Address.objects.filter(Clientid=Clientid)]:
             models.Address.objects.create(Clientid=client, address=address)
 
-        models.Session.objects.create(Clientid=client, address=address, delivery_time=delivary_time)
+        models.Session.objects.create(Clientid=client, address=address, delivery_time=delivery_time) #.replace(tzinfo=utc)
 
     else:
-        new_client = models.Client.objects.create(name=name, surname=surname, patronymic=patronymic, gender=gender,
-                                                  birthday=birthday, t_number=t_number)
+        new_client = models.Client.objects.create(name=name, surname=surname, patronymic=patronymic, t_number=t_number)
         models.Address.objects.create(Clientid=new_client, address=address)
 
-        models.Session.objects.create(Clientid=new_client, address=address, delivary_time=delivary_time)
+        models.Session.objects.create(Clientid=new_client, address=address,
+                                      delivary_time=delivery_time)
 
     return HttpResponse(json.dumps({'error_codes': error_codes}), content_type='application/json')
 
