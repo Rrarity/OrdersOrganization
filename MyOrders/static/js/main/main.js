@@ -142,7 +142,7 @@
             resizable: false,
             width: 600
         }).data("kendoWindow");
-        window.order_model = kendo.observable({
+        var order_model = kendo.observable({
             id: 0,
             phone: "",
             surname: "",
@@ -207,6 +207,9 @@
 
         $("#order_save").click(function(e) {
             order_window.close();
+            var delivery_time = order_model.get("delivery_time");
+            delivery_time.setHours(delivery_time.getHours() - delivery_time.getTimezoneOffset() / 60);
+            delivery_time = delivery_time.toJSON();
             var send_data = {
                 Clientid: order_model.get("id"),
                 t_number: order_model.get("phone"),
@@ -216,17 +219,17 @@
                 gender: "",
                 birthday: "",
                 address: order_model.get("address"),
-                delivery_time: order_model.get("delivery_time")
+                delivery_time: delivery_time
             };
             $.post("/my_orders/set_add_session_from_number/", JSON.stringify(send_data),   // TODO: my_orders
                 function(data) {
                     console.log(data);
+                    order_grid.data("kendogrid").dataSource.read();
                     if (data.error_codes.length == 0) {
                         show_error("Сохранено.",N_SUCCESS);
                     } else {
                         show_error("Произошла ошибка.");
                     }
-
                 },"json");
             return false;
         });
