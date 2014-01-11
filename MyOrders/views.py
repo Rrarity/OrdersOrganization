@@ -217,3 +217,20 @@ def set_add_session_from_number(request):
         models.Session.objects.create(Clientid=new_client, address=address, delivary_time=delivary_time)
 
     return HttpResponse(json.dumps({'error_codes': error_codes}), content_type='application/json')
+
+
+def get_sessions(request):
+    """
+    Отправить данные о сессиях
+    """
+
+    sessions = list(models.Session.objects.all().values('Clientid', 'order_time', 'address', 'delivery_time'))
+
+    for session in sessions:
+        client = get_or_none(models.Client, id=session.get('Clientid'))
+        session['order_time'] = session.get('order_time').strftime('%d.%m.%Y %H:%M')
+        session['delivery_time'] = session.get('delivery_time').strftime('%d.%m.%Y %H:%M')
+        session['fio'] = '%s %s %s' % (client.surname, client.name, client.patronymic)
+        session['t_number'] = client.t_number
+
+    return HttpResponse(json.dumps({'sessions': sessions}), content_type='application/json')

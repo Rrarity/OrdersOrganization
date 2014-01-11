@@ -10,4 +10,5 @@ urlpatterns = patterns('MyOrders.views',
                        url(r'^logout/$', 'log_out'),
                        url(r'^change_password/$', 'change_password'),
                        url(r'^get_add_session_from_number/$', 'get_add_session_from_number'),
-                       url(r'^set_add_session_from_number/$', 'set_add_session_from_number'),)
+                       url(r'^set_add_session_from_number/$', 'set_add_session_from_number'),
+                       url(r'^get_sessions/$', 'get_sessions'),)
