@@ -142,12 +142,13 @@
             resizable: false,
             width: 600
         }).data("kendoWindow");
-        var order_model = kendo.observable({
+        window.order_model = kendo.observable({
             id: 0,
             phone: "",
             surname: "",
             name: "",
             patronymic: "",
+            addresses: [],
             address: "",
             delivery_time: new Date()
         });
@@ -155,6 +156,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $(".add_order").click(function(e) {
             e.preventDefault();
+            new_order_model.set("is_mobile",true);
+            new_order_model.set("type_number",1);
+            new_order_model.set("country_code","+7");
+            new_order_model.set("def_code","");
+            new_order_model.set("phone_number","");
+            new_order_model.set("home_phone","");
             new_order_window.center().open();
             return false;
         });
@@ -186,28 +193,40 @@
                 function(data) {
                     $Q.close();
                     console.log(data);
+                    order_model.set("id",data.client.id);
+                    order_model.set("phone",send_data.t_number);
+                    order_model.set("surname",data.client.surname);
+                    order_model.set("name",data.client.name);
+                    order_model.set("patronymic",data.client.patronymic);
+                    order_model.set("addresses",data.addresses);
+                    order_model.set("address","");
                     order_window.center().open();
                 },"json");
             return false;
         });
 
         $("#order_save").click(function(e) {
+            order_window.close();
             var send_data = {
-                t_number: ""
+                Clientid: order_model.get("id"),
+                t_number: order_model.get("phone"),
+                name: order_model.get("name"),
+                surname: order_model.get("surname"),
+                patronymic: order_model.get("patronymic"),
+                gender: "",
+                birthday: "",
+                address: order_model.get("address"),
+                delivery_time: order_model.get("delivery_time")
             };
-            if (new_order_model.get("type_number") == 1) {
-                send_data.t_number = new_order_model.get("country_code")+
-                    new_order_model.get("def_code")+
-                    new_order_model.get("phone_number");
-            } else {
-                send_data.t_number = new_order_model.get("country_code")+
-                    new_order_model.get("home_phone");
-            }
-            $.post("/my_orders/get_add_session_from_number/", JSON.stringify(send_data),   // TODO: my_orders
+            $.post("/my_orders/set_add_session_from_number/", JSON.stringify(send_data),   // TODO: my_orders
                 function(data) {
-                    $Q.close();
                     console.log(data);
-                    order_window.center().open();
+                    if (data.error_codes.length == 0) {
+                        show_error("Сохранено.",N_SUCCESS);
+                    } else {
+                        show_error("Произошла ошибка.");
+                    }
+
                 },"json");
             return false;
         });
