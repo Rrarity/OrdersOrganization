@@ -12,6 +12,9 @@ class Client(models.Model):
     birthday = models.DateField(null=True)
     t_number = models.CharField(max_length=16, null=False)
 
+    def __unicode__(self):
+        return '%s %s %s' % (self.surname, self.name, self.patronymic)
+
 
 class Address(models.Model):
     Clientid = models.ForeignKey(Client, null=False)
