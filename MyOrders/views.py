@@ -203,7 +203,7 @@ def set_add_session_from_number(request):
 
         models.Client.objects.filter(id=Clientid).update(name=name, surname=surname, patronymic=patronymic)
 
-        if address not in [adrs.address for adrs in models.Address.objects.filter(Clientid=Clientid)]:
+        if address.upper() not in [adrs.address.upper() for adrs in models.Address.objects.filter(Clientid=Clientid)]:
             models.Address.objects.create(Clientid=client, address=address)
 
         models.Session.objects.create(Clientid=client, address=address, delivery_time=delivery_time) #.replace(tzinfo=utc)
