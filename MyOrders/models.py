@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Client(models.Model):
-    register_date = models.DateTimeField(auto_now_add=True)
+    register_date = models.DateTimeField(null=False)
     name = models.CharField(max_length=24, null=True)
     surname = models.CharField(max_length=32, null=True)
     patronymic = models.CharField(max_length=32, null=True)
@@ -22,7 +22,7 @@ class Address(models.Model):
 
 class Session(models.Model):
     Clientid = models.ForeignKey(Client, null=False)
-    order_time = models.DateTimeField(auto_now_add=True)
+    order_time = models.DateTimeField(null=False)
     address = models.CharField(max_length=128, null=False)
     delivery_time = models.DateTimeField(null=False)
 

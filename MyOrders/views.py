@@ -206,14 +206,18 @@ def set_add_session_from_number(request):
         if address.upper() not in [adrs.address.upper() for adrs in models.Address.objects.filter(Clientid=Clientid)]:
             models.Address.objects.create(Clientid=client, address=address)
 
-        models.Session.objects.create(Clientid=client, address=address, delivery_time=delivery_time) #.replace(tzinfo=utc)
+        models.Session.objects.create(Clientid=client, address=address,
+                                      order_time=datetime.now().replace(tzinfo=utc),
+                                      delivery_time=delivery_time.replace(tzinfo=utc))
 
     else:
-        new_client = models.Client.objects.create(name=name, surname=surname, patronymic=patronymic, t_number=t_number)
+        new_client = models.Client.objects.create(register_date=datetime.now().replace(tzinfo=utc),
+                                                  name=name, surname=surname, patronymic=patronymic, t_number=t_number)
         models.Address.objects.create(Clientid=new_client, address=address)
 
         models.Session.objects.create(Clientid=new_client, address=address,
-                                      delivery_time=delivery_time)
+                                      order_time=datetime.now().replace(tzinfo=utc),
+                                      delivery_time=delivery_time.replace(tzinfo=utc))
 
     return HttpResponse(json.dumps({'error_codes': error_codes}), content_type='application/json')
 
