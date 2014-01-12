@@ -117,6 +117,13 @@
                     attributes: {
                         style: "text-align: center;"
                     }
+                },
+                {   command: { name: "Распечать", click: print_order },
+                    title: "",
+                    width: "140px",
+                    attributes: {
+                        style: "text-align: center;"
+                    }
                 }
             ]
         }).data("kendoGrid");
@@ -309,4 +316,18 @@
         });
 
     });
+
+    function print_order(e) {
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var print_template = kendo.template($("#print_template").html());
+        var w = window.open();
+        $(w.document.body).html(print_template({
+            phone: dataItem.t_number,
+            fio: dataItem.fio,
+            address: dataItem.address,
+            delivery_time: dataItem.delivery_time,
+            order_time: dataItem.order_time
+        }));
+        console.log(dataItem)
+    }
 })(jQuery);
