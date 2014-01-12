@@ -55,18 +55,50 @@
                transport: {
                    read: {
                        url: "/my_orders/get_sessions/", //TODO: My_orders
-                            dataType: "json",
-                            type: "POST",
-                            data: {
-                                //type: "documents"
+                       dataType: "json",
+                       type: "POST",
+                       data: {
+                            //type: ""
                        }
                    }
                },
+//               schema: {
+//
+//               }
                schema: {
-                   data: "sessions"
+                    data: "sessions",
+                    model: {
+                        fields: {
+                            t_number: { type: "string" },
+                            fio: { type: "string" },
+                            order_time: { type: "date" },
+                            address: { type: "string" },
+                            delivery_time: { type: "date" }
+                        }
+                    }
                }
            },
             height: GRID_HEIGHT,
+            scrollable: true,
+            filterable: {
+                extra: true,
+                messages: {
+                    info: "Показать записи, которые:",
+                    and: "и",
+                    or: "или",
+                    filter: "Применить",
+                    clear: "Осистить"
+                },
+                operators: {
+                    string: {
+                        startswith: "Начинаются с",
+                        contains: "Содержат в себе",
+                        endswith: "Заканчмваются на",
+                        eq: "Равны",
+                        neq: "Не равны"
+                    }
+                }
+            },
             columns: [
                 {   title: "Номер телефона",
                     field: "t_number",
@@ -96,6 +128,9 @@
                     },
                     attributes: {
                         style: "text-align: center;"
+                    },
+                    filterable: {
+                        ui: "datetimepicker"
                     }
                 },
                 {   title: "Место доставки",
