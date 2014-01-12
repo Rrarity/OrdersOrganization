@@ -243,8 +243,8 @@ def get_sessions(request):
 
     for session in sessions:
         client = get_or_none(models.Client, id=session.get('Clientid'))
-        session['order_time'] = session.get('order_time').strftime('%d.%m.%Y %H:%M')
-        session['delivery_time'] = session.get('delivery_time').strftime('%d.%m.%Y %H:%M')
+        session['order_time'] = date_to_kendo(session.get('order_time'))
+        session['delivery_time'] = date_to_kendo(session.get('delivery_time'))
         session['fio'] = '%s %s %s' % (client.surname, client.name, client.patronymic)
         session['t_number'] = client.t_number
 
