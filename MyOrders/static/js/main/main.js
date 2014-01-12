@@ -168,7 +168,6 @@
                 } else if ((e.keyCode == 13) && (input == "def_code")) {
                     $("input[name=phone_number]").select();
                 } else if ((e.keyCode == 13)) {
-                    console.log("#13");
                     $("#new_order_save").click();
                 }
                 //console.log(val.length,input, e)
@@ -277,7 +276,7 @@
                     order_model.set("name",data.client.name);
                     order_model.set("patronymic",data.client.patronymic);
                     order_model.set("addresses",data.addresses);
-                    order_model.set("address","");
+                    order_model.set("address",data.addresses.length>0?data.addresses[0]:"");
                     order_model.set("delivery_time",new Date(new Date().getTime() + 30*60000));
                     $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                     order_window.center().open();
