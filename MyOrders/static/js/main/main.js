@@ -135,8 +135,8 @@
                         style: "text-align: center;"
                     },
                     aggregates: [ "count"],
-                    footerTemplate: "Всего записей #: count#",
-                    groupFooterTemplate: "Всего записей  #: count#"
+                    footerTemplate: "Всего #: count#",
+                    groupFooterTemplate: "Всего #: count#"
                 },
                 {   title: "Клиент",
                     field: "fio",
