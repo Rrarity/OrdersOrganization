@@ -131,7 +131,19 @@ def get_add_session_from_number(request):
         client_info = list(models.Client.objects.filter(t_number=t_number).values('id', 'name', 'surname',
                                                                                   'patronymic'))[0]
 
-        addresses = [address.address for address in models.Address.objects.filter(Clientid=client_info.get('id'))]
+        addresses = [session.address for session in models.Session.objects.filter(Clientid=client)]
+        addresses_set = list(set(addresses))
+
+        for index, adrs_set in enumerate(addresses_set):
+            adrs_count = 0
+            for adrs in addresses:
+                if adrs_set == adrs:
+                    adrs_count += 1
+            addresses_set[index] = (adrs_set, adrs_count)
+
+        addresses_set.sort(key=lambda tpl: tpl[1], reverse=True)
+
+        addresses = [adrs_t[0] for adrs_t in addresses_set]
 
         return HttpResponse(json.dumps({'error_codes': error_codes, 't_number': t_number, 'client': client_info,
                                         'addresses': addresses}), content_type='application/json')
