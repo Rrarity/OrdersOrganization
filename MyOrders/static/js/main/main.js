@@ -279,6 +279,7 @@
         });
 
         $("#order_save").click(function(e) {
+            if (!order_validator.validate()) return false;
             order_window.close();
             var delivery_time = order_model.get("delivery_time");
             delivery_time.setHours(delivery_time.getHours() - delivery_time.getTimezoneOffset() / 60);
