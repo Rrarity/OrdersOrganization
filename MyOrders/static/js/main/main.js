@@ -3,27 +3,27 @@
  * Date: 08.01.14
  * Time: 14:59
  */
-(function($) {
-    $(document).ready(function(e) {
-        $("#exit").click(function(e) {
+(function ($) {
+    $(document).ready(function (e) {
+        $("#exit").click(function (e) {
             e.preventDefault();
-            noty_confirm("Вы уверены, что хотите выйти?", function($n) {
-                return $.get("/my_orders/logout/", function() { //TODO: My_orders
+            noty_confirm("Вы уверены, что хотите выйти?", function ($n) {
+                return $.get("/my_orders/logout/", function () { //TODO: My_orders
                     return location.href = "/";
                 });
                 $n.close();
             });
         });
 
-        $("#change_password").click(function(e) {
+        $("#change_password").click(function (e) {
             e.preventDefault();
-            noty_confirm("Вы уверены, что хотите сменить пароль?", function($n) {
+            noty_confirm("Вы уверены, что хотите сменить пароль?", function ($n) {
                 var $Q = noty_message();
-                $.get("/my_orders/change_password/", function(data) { //TODO: My_orders
+                $.get("/my_orders/change_password/", function (data) { //TODO: My_orders
                     $Q.close();
                     console.log(data);
                     if (data.error_codes.length == 0)
-                        noty_alert("Ваш новый пароль: "+data.password);
+                        noty_alert("Ваш новый пароль: " + data.password);
                 });
                 $n.close();
             });
@@ -32,12 +32,12 @@
         var GRID_HEIGHT = 600;
         var defaultValidator = {
             rules: {
-                required: function(input) {
+                required: function (input) {
                     if (input.is("[required]")) {
                         return $.trim(input.val()) !== "";
                     } else return true;
                 },
-                number: function(input) {
+                number: function (input) {
                     if (input.is("[number]")) {
                         var reg = new RegExp('^[0-9]+$');
                         return reg.test(input.val());
@@ -50,22 +50,19 @@
             }
         };
 
-       var order_grid = $("#order_grid").kendoGrid({
-           dataSource: {
-               transport: {
-                   read: {
-                       url: "/my_orders/get_sessions/", //TODO: My_orders
-                       dataType: "json",
-                       type: "POST",
-                       data: {
+        var order_grid = $("#order_grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "/my_orders/get_sessions/", //TODO: My_orders
+                        dataType: "json",
+                        type: "POST",
+                        data: {
                             //type: ""
-                       }
-                   }
-               },
-//               schema: {
-//
-//               }
-               schema: {
+                        }
+                    }
+                },
+                schema: {
                     data: "sessions",
                     model: {
                         fields: {
@@ -76,9 +73,21 @@
                             delivery_time: { type: "date" }
                         }
                     }
-               }
-           },
+                },
+                aggregate: [
+                    { field: "t_number", aggregate: "count" }
+                ]
+            },
             height: GRID_HEIGHT,
+            sortable: true/*{
+                mode: "multiple",
+                allowUnsort: true
+            }*/,
+            groupable: {
+                messages: {
+                    empty: "Перетащите заголовок столбца сюда, чтобы сгруппировать по этому столбцу"
+                }
+            },
             scrollable: true,
             filterable: {
                 extra: true,
@@ -96,9 +105,25 @@
                         endswith: "Заканчмваются на",
                         eq: "Равны",
                         neq: "Не равны"
+                    },
+                    date: {
+                        gte: "С (включительно)",
+                        lte: "По (не включительно)"
                     }
                 }
-            },
+              },
+//            pageable: {
+//                pageSize: 20,
+//                //pageSizes: true,
+//                messages: {
+//                    display: "{0}-{1} из {2} записей",
+//                    empty: " ",
+//                    previous: "Предыдущая страница",
+//                    next: "Следующая страница",
+//                    last: "Последняя страница",
+//                    first: "Первая страница"
+//                }
+//            },
             columns: [
                 {   title: "Номер телефона",
                     field: "t_number",
@@ -108,7 +133,10 @@
                     },
                     attributes: {
                         style: "text-align: center;"
-                    }
+                    },
+                    aggregates: [ "count"],
+                    footerTemplate: "Всего записей #: count#",
+                    groupFooterTemplate: "Всего записей  #: count#"
                 },
                 {   title: "Клиент",
                     field: "fio",
@@ -122,6 +150,7 @@
                 },
                 {   title: "Время заказа",
                     field: "order_time",
+                    template: "#= order_time.toLocaleString()#",
                     width: "150px",
                     headerAttributes: {
                         style: "text-align: center;"
@@ -130,7 +159,7 @@
                         style: "text-align: center;"
                     },
                     filterable: {
-                        ui: "datetimepicker"
+                        ui: date_filter
                     }
                 },
                 {   title: "Место доставки",
@@ -139,18 +168,22 @@
                     headerAttributes: {
                         style: "text-align: center;"
                     }/*,
-                    attributes: {
-                        style: "text-align: center;"
-                    }*/
+                 attributes: {
+                 style: "text-align: center;"
+                 }*/
                 },
                 {   title: "Время доставки",
                     field: "delivery_time",
+                    template: "#= delivery_time.toLocaleString()#",
                     width: "150px",
                     headerAttributes: {
                         style: "text-align: center;"
                     },
                     attributes: {
                         style: "text-align: center;"
+                    },
+                    filterable: {
+                        ui: date_filter
                     }
                 },
                 {   command: { name: "Распечать", click: print_order },
@@ -163,12 +196,18 @@
             ]
         }).data("kendoGrid");
 
-        $( window ).resize(function() {
-/*            var GRID_HEIGHT = $(window).height() - $("header").height() - $("footer").height() - 60;
-            var height = GRID_HEIGHT;
-            height = height - 27;
-            order_grid.css("height",height+"px");*/
-          //console.log("qw");
+        function date_filter(elm) {
+            elm.kendoDatePicker({
+                culture: "ru-RU"
+            });
+        }
+
+        $(window).resize(function () {
+            /*            var GRID_HEIGHT = $(window).height() - $("header").height() - $("footer").height() - 60;
+             var height = GRID_HEIGHT;
+             height = height - 27;
+             order_grid.css("height",height+"px");*/
+            //console.log("qw");
         });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         var new_order_window = $("#new_order_form").kendoWindow({
@@ -177,7 +216,7 @@
             visible: false,
             resizable: false,
             width: 450,
-            activate: function(e) {
+            activate: function (e) {
                 $("input[name=def_code]").select();
             }
         }).data("kendoWindow");
@@ -187,15 +226,18 @@
             def_code: "",
             phone_number: "",
             home_phone: "",
-            type_numbers: [{text: "моб.", id:1},{text: "дом.", id:2}],
+            type_numbers: [
+                {text: "моб.", id: 1},
+                {text: "дом.", id: 2}
+            ],
             type_number: 1,
-            type_number_change: function(e) {
+            type_number_change: function (e) {
                 if (this.get("type_number") == 1)
-                    this.set("is_mobile",true);
+                    this.set("is_mobile", true);
                 else
-                    this.set("is_mobile",false);
+                    this.set("is_mobile", false);
             },
-            phone_change: function(e) {
+            phone_change: function (e) {
                 var val = e.currentTarget.value;
                 var input = e.currentTarget.name
                 if ((val.length == 3) && (input == "def_code")) {
@@ -211,18 +253,18 @@
         kendo.bind($("#new_order"), new_order_model);
         window.new_order_validator = $("#new_order").kendoValidator({
             rules: {
-                required: function(input) {
+                required: function (input) {
                     if (input.is("[required]")) {
                         return $.trim(input.val()) !== "";
                     } else return true;
                 },
-                number: function(input) {
+                number: function (input) {
                     if (input.is("[number]")) {
                         var reg = new RegExp('^[0-9]+$');
                         return reg.test(input.val());
                     } else return true;
                 },
-                phone_code: function(input) {
+                phone_code: function (input) {
                     if (input.is("[name=country_code]")) {
                         var reg = new RegExp('^\\+[0-9]+$');
                         return reg.test(input.val());
@@ -257,29 +299,29 @@
         kendo.bind($("#order"), order_model);
         var order_validator = $("#order").kendoValidator(defaultValidator).data("kendoValidator");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $(".add_order").click(function(e) {
+        $(".add_order").click(function (e) {
             e.preventDefault();
-            new_order_model.set("is_mobile",true);
-            new_order_model.set("type_number",1);
-            new_order_model.set("country_code","+7");
-            new_order_model.set("def_code","");
-            new_order_model.set("phone_number","");
-            new_order_model.set("home_phone","");
+            new_order_model.set("is_mobile", true);
+            new_order_model.set("type_number", 1);
+            new_order_model.set("country_code", "+7");
+            new_order_model.set("def_code", "");
+            new_order_model.set("phone_number", "");
+            new_order_model.set("home_phone", "");
             $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
             new_order_window.center().open();
             return false;
         });
 
-        $("#new_order_cancel").click(function(e) {
+        $("#new_order_cancel").click(function (e) {
             new_order_window.close();
             return false;
         });
-        $("#order_cancel").click(function(e) {
+        $("#order_cancel").click(function (e) {
             order_window.close();
             return false;
         });
 
-        $("#new_order_save").click(function(e) {
+        $("#new_order_save").click(function (e) {
             if (!new_order_validator.validateInput($("input[name=country_code]"))) return false;
             if (new_order_model.get("type_number") == 1) {
                 if (!new_order_validator.validateInput($("input[name=def_code]"))) return false;
@@ -294,32 +336,32 @@
                 t_number: ""
             };
             if (new_order_model.get("type_number") == 1) {
-                send_data.t_number = new_order_model.get("country_code")+
-                    new_order_model.get("def_code")+
+                send_data.t_number = new_order_model.get("country_code") +
+                    new_order_model.get("def_code") +
                     new_order_model.get("phone_number");
             } else {
-                send_data.t_number = new_order_model.get("country_code")+
+                send_data.t_number = new_order_model.get("country_code") +
                     new_order_model.get("home_phone");
             }
             $.post("/my_orders/get_add_session_from_number/", JSON.stringify(send_data),   // TODO: my_orders
-                function(data) {
+                function (data) {
                     $Q.close();
                     console.log(data);
-                    order_model.set("id",data.client.id);
-                    order_model.set("phone",send_data.t_number);
-                    order_model.set("surname",data.client.surname);
-                    order_model.set("name",data.client.name);
-                    order_model.set("patronymic",data.client.patronymic);
-                    order_model.set("addresses",data.addresses);
-                    order_model.set("address",data.addresses.length>0?data.addresses[0]:"");
-                    order_model.set("delivery_time",new Date(new Date().getTime() + 30*60000));
+                    order_model.set("id", data.client.id);
+                    order_model.set("phone", send_data.t_number);
+                    order_model.set("surname", data.client.surname);
+                    order_model.set("name", data.client.name);
+                    order_model.set("patronymic", data.client.patronymic);
+                    order_model.set("addresses", data.addresses);
+                    order_model.set("address", data.addresses.length > 0 ? data.addresses[0] : "");
+                    order_model.set("delivery_time", new Date(new Date().getTime() + 30 * 60000));
                     $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                     order_window.center().open();
-                },"json");
+                }, "json");
             return false;
         });
 
-        $("#order_save").click(function(e) {
+        $("#order_save").click(function (e) {
             if (!order_validator.validate()) return false;
             order_window.close();
             var delivery_time = order_model.get("delivery_time");
@@ -337,15 +379,15 @@
                 delivery_time: delivery_time
             };
             $.post("/my_orders/set_add_session_from_number/", JSON.stringify(send_data),   // TODO: my_orders
-                function(data) {
+                function (data) {
                     console.log(data);
                     order_grid.dataSource.read();
                     if (data.error_codes.length == 0) {
-                        show_error("Сохранено.",N_SUCCESS);
+                        show_error("Сохранено.", N_SUCCESS);
                     } else {
                         show_error("Произошла ошибка.");
                     }
-                },"json");
+                }, "json");
             return false;
         });
 
