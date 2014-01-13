@@ -396,13 +396,17 @@
     function print_order(e) {
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var print_template = kendo.template($("#print_template").html());
+        var locale_delivery_time = dataItem.delivery_time.toLocaleString(),
+            locale_order_time = dataItem.order_time.toLocaleString();
+        locale_delivery_time = locale_delivery_time.slice(0,locale_delivery_time.length-3);
+        locale_order_time = locale_order_time.slice(0,locale_order_time.length-3);
         var w = window.open();
         $(w.document.body).html(print_template({
             phone: dataItem.t_number,
             fio: dataItem.fio,
             address: dataItem.address,
-            delivery_time: dataItem.delivery_time,
-            order_time: dataItem.order_time
+            delivery_time: locale_delivery_time,
+            order_time: locale_order_time
         }));
         console.log(dataItem)
     }
