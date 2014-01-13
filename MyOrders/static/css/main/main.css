@@ -21,3 +21,5 @@
 .k-edit-form-container .k-edit-buttons { position: static; }
 
 .k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg {margin-top: 5px;}
+
+.k-grid-filter.k-state-active {background-color: #F8DB7E}

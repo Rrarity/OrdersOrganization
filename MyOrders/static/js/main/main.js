@@ -96,7 +96,7 @@
                     and: "и",
                     or: "или",
                     filter: "Применить",
-                    clear: "Осистить"
+                    clear: "Очистить"
                 },
                 operators: {
                     string: {
@@ -365,7 +365,7 @@
             if (!order_validator.validate()) return false;
             order_window.close();
             var delivery_time = order_model.get("delivery_time");
-            delivery_time.setHours(delivery_time.getHours() - delivery_time.getTimezoneOffset() / 60);
+//            delivery_time.setHours(delivery_time.getHours() - delivery_time.getTimezoneOffset() / 60);
             delivery_time = delivery_time.toJSON();
             var send_data = {
                 Clientid: order_model.get("id"),

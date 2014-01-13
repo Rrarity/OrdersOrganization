@@ -219,7 +219,7 @@ def set_add_session_from_number(request):
             models.Address.objects.create(Clientid=client, address=address)
 
         models.Session.objects.create(Clientid=client, address=address,
-                                      order_time=datetime.now().replace(tzinfo=utc),
+                                      order_time=datetime.now(),
                                       delivery_time=delivery_time.replace(tzinfo=utc))
 
     else:
@@ -228,7 +228,7 @@ def set_add_session_from_number(request):
         models.Address.objects.create(Clientid=new_client, address=address)
 
         models.Session.objects.create(Clientid=new_client, address=address,
-                                      order_time=datetime.now().replace(tzinfo=utc),
+                                      order_time=datetime.now(),
                                       delivery_time=delivery_time.replace(tzinfo=utc))
 
     return HttpResponse(json.dumps({'error_codes': error_codes}), content_type='application/json')
