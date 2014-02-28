@@ -6,7 +6,7 @@ from MyOrders.additionally.errors_code import *
 from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from MyOrders.additionally.publics import *
-from django.core.validators import email_re
+#from django.core.validators import email_re
 from django.core.mail import send_mail
 from django.utils.timezone import utc
 import MyOrders.models as models
