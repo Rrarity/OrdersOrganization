@@ -5,6 +5,7 @@
  */
 (function ($) {
     $(document).ready(function (e) {
+        //Выход из учетной записи
         $("#exit").click(function (e) {
             e.preventDefault();
             noty_confirm("Вы уверены, что хотите выйти?", function ($n) {
@@ -14,7 +15,7 @@
                 $n.close();
             });
         });
-
+        //Запрос смены пароля
         $("#change_password").click(function (e) {
             e.preventDefault();
             noty_confirm("Вы уверены, что хотите сменить пароль?", function ($n) {
@@ -49,7 +50,7 @@
                 number: "Значение этого поля должно быть числом"
             }
         };
-
+        //Вывод таблицы
         var order_grid = $("#order_grid").kendoGrid({
             dataSource: {
                 transport: {
@@ -210,6 +211,7 @@
             //console.log("qw");
         });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Создания окна для ввода номера телефона
         var new_order_window = $("#new_order_form").kendoWindow({
             title: "Добавить заказ",
             modal: true,
@@ -220,6 +222,7 @@
                 $("input[name=def_code]").select();
             }
         }).data("kendoWindow");
+        //модель представления данных окна для ввода телефона
         var new_order_model = kendo.observable({
             is_mobile: true,
             country_code: "+7",
@@ -279,6 +282,7 @@
             }
         }).data("kendoValidator");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // окно нового заказа
         var order_window = $("#order_form").kendoWindow({
             title: "Добавить заказ",
             modal: true,
@@ -286,6 +290,7 @@
             resizable: false,
             width: 600
         }).data("kendoWindow");
+        // модель представления окна нового заказа
         var order_model = kendo.observable({
             id: 0,
             phone: "",
@@ -299,6 +304,7 @@
         kendo.bind($("#order"), order_model);
         var order_validator = $("#order").kendoValidator(defaultValidator).data("kendoValidator");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // обработка нажатия кнопки нового заказа
         $(".add_order").click(function (e) {
             e.preventDefault();
             new_order_model.set("is_mobile", true);
@@ -320,7 +326,7 @@
             order_window.close();
             return false;
         });
-
+        //запрос данных для инициализации нового заказа
         $("#new_order_save").click(function (e) {
             if (!new_order_validator.validateInput($("input[name=country_code]"))) return false;
             if (new_order_model.get("type_number") == 1) {
@@ -360,7 +366,7 @@
                 }, "json");
             return false;
         });
-
+        //сохранения нового заказа
         $("#order_save").click(function (e) {
             if (!order_validator.validate()) return false;
             order_window.close();
@@ -392,7 +398,7 @@
         });
 
     });
-
+    //печать отчета
     function print_order(e) {
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var print_template = kendo.template($("#print_template").html());

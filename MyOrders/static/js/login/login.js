@@ -5,6 +5,7 @@
  */
 (function($) {
     $(document).ready(function(e) {
+        //обработка нажатия клавиш формы входа
         $("input[name='password'],input[name='login']").keypress(function(e) {
             if (e.keyCode == 13) {
                 e.preventDefault();
@@ -15,7 +16,7 @@
                 }
             }
         });
-
+        //Отправка логина и пароля для авторизации
         $( ".login_form" ).submit(function(e) {
             var password = $("input[name='password']").val(),
                 login = $("input[name='login']").val();

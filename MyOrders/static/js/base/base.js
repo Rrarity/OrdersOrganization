@@ -11,6 +11,7 @@ var N_WARNING = 'warning';
 var N_NOTIFICATION = 'notification';
 var N_SUCCESS = 'success';
 
+//Функция вывода сообщений ошибок
 function show_error(text, type, timeout) {
     type = typeof type !== 'undefined' ? type : N_ERROR;
     timeout = typeof timeout !== 'undefined' ? timeout : 3000;
@@ -23,7 +24,7 @@ function show_error(text, type, timeout) {
   		theme: 'defaultTheme'
   	});
 }
-
+//Функция вывода сообщений подтверждений
 function noty_confirm(text, succes) {
     succes = typeof succes !== 'undefined' ? succes : function($n) { $n.close(); };
     noty({
@@ -39,7 +40,7 @@ function noty_confirm(text, succes) {
         ]
     });
 }
-
+//Функция вывода сообщений предупреждений
 function noty_alert(text, succes) {
     succes = typeof succes !== 'undefined' ? succes : function($n) { $n.close(); };
     noty({
@@ -50,7 +51,7 @@ function noty_alert(text, succes) {
         ]
     });
 }
-
+//Функция вывода сообщений
 function noty_message(text, type) {
     text = typeof text !== 'undefined' ? text : "Загрузка...";
     type = typeof type !== 'undefined' ? type : N_INFORMATION;
